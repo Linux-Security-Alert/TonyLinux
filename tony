@@ -1,6 +1,5 @@
 #!/bin/bash
 banner() {
-ip=$(curl -s https://api.ipify.org) >/dev/null 2>&1
 clear
 echo -e "\033[0;32m Welcome to TonyLinux!     $ip"
 echo -e "\033[1;37m +-----------------------------------------+"

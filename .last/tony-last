@@ -1,0 +1,55 @@
+#!/bin/bash
+reset='\033[0m'
+basic_install() {
+if [[ $(command -v $installs) ]]; then
+echo -e "\033[0;32m Packages already installed.${reset}"
+else
+pkgs=($installs)
+for pkg in "${pkgs[@]}"; do
+type -p "$pkg" &>/dev/null || {
+echo "" >/dev/null 2>&1
+if [[ $(command -v pkg) ]]; then
+pkg install "$pkg" -y
+elif [[ $(command -v apt) ]]; then
+sudo apt install "$pkg" -y
+elif [[ $(command -v apt-get) ]]; then
+sudo apt-get install "$pkg" -y
+elif [[ $(command -v pacman) ]]; then
+sudo pacman -S "$pkg" --noconfirm
+elif [[ $(command -v dnf) ]]; then
+sudo dnf -y install "$pkg"
+elif [[ $(command -v yum) ]]; then
+sudo yum -y install "$pkg"
+else
+echo -e "\033[0;31m Unsupported package manager, Install packages manually.${reset}"
+exit
+fi
+}
+done
+fi
+}
+banner() {
+clear
+echo -e "\033[0;32m Welcome to TonyLinux!     $ip"
+echo -e "\033[1;37m +-----------------------------------------+"
+echo -e "\033[1;37m |\033[0;32m  ████████╗ ██████╗ ███╗   ██╗██╗   ██╗\033[1;37m  |"
+echo -e "\033[1;37m |\033[0;32m  ╚══██╔══╝██╔═══██╗████╗  ██║╚██╗ ██╔╝\033[1;37m  |"
+echo -e "\033[1;37m |\033[0;32m     ██║   ██║   ██║██╔██╗ ██║ ╚████╔╝\033[1;37m   |"
+echo -e "\033[1;37m |\033[0;32m     ██║   ██║   ██║██║╚██╗██║  ╚██╔╝  \033[1;37m  |"
+echo -e "\033[1;37m |\033[0;32m     ██║   ╚██████╔╝██║ ╚████║   ██║   \033[1;37m  |"
+echo -e "\033[1;37m |\033[0;32m     ╚═╝    ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   \033[1;37m  |"
+echo -e "\033[1;37m +-----------------------------------------+"
+echo -e "\033[1;37m |\033[0;32m ██╗     ██╗███╗   ██╗██╗   ██╗██╗  ██╗\033[0;31m H\033[1;37m|"
+echo -e "\033[1;37m |\033[0;32m ██║     ██║████╗  ██║██║   ██║╚██╗██╔╝\033[0;31m A\033[1;37m|"
+echo -e "\033[1;37m |\033[0;32m ██║     ██║██╔██╗ ██║██║   ██║ ╚███╔╝\033[0;31m  C\033[1;37m|"
+echo -e "\033[1;37m |\033[0;32m ██║     ██║██║╚██╗██║██║   ██║ ██╔██╗\033[0;31m  K\033[1;37m|"
+echo -e "\033[1;37m |\033[0;32m ███████╗██║██║ ╚████║╚██████╔╝██╔╝ ██╗\033[0;31m E\033[1;37m|"
+echo -e "\033[1;37m |\033[0;32m ╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝\033[0;31m D\033[1;37m|"
+echo -e "\033[1;37m +-----------------------------------------+"
+}
+if [ -z $1 ]; then 
+echo "" >/dev/null 2>&1
+else 
+installs="$1"
+basic_install
+fi

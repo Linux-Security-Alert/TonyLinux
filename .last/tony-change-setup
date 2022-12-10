@@ -1,19 +1,5 @@
 #!/bin/bash
-red="$(printf '\033[31m')"
-green="$(printf '\033[32m')"
-white="$(printf '\033[37m')"
-blue="$(printf '\033[34m')"
-reset='\033[0m'
-clear
 
-exit_on_signal_SIGINT() {
-echo "" >/dev/null 2>&1
-}
-exit_on_signal_SIGTERM() {
-echo "" >/dev/null 2>&1
-}
-trap exit_on_signal_SIGINT SIGINT
-trap exit_on_signal_SIGTERM SIGTERM
 
 banner() {
 clear
@@ -34,29 +20,3 @@ echo -e "${white} | ${green}╚══════╝╚═╝╚═╝  ╚═�
 echo -e "${white} +-----------------------------------------+"
 }
 banner
-input_menu() {
-read -p "${blue} ┌──${red}[${green}TonyLinux${red}]${blue}──${red}•
-${blue} └╼${red}► ${green}" inputs inputs1 inputs2 inputs3 inputs4 inputs5
-output_check
-}
-output_check() {
-if [ -z $inputs ]; then
-input_menu
-elif [ $inputs = "exit" ] || [ $inputs = "exit()" ]; then
-echo -e "${reset}"
-clear
-exit
-elif [ $inputs = "cd" ]; then
-if [ -z $inputs1 ]; then
-$inputs
-input_menu
-elif [ -d $inputs1 ]; then
-$inputs $inputs1
-ls
-input_menu
-fi
-else
-input_menu
-fi
-}
-input_menu
